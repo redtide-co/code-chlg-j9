@@ -1,4 +1,4 @@
-# code-chlg-j9
+# Redtide challenge: Bootler
 Simple yet complete coding challenges with _Spring Framework_
 
 ## Content
