@@ -1,11 +1,12 @@
 package co.redtide.chlg;
 
-import com.google.common.base.Predicates;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static com.google.common.base.Predicates.notNull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,15 +29,15 @@ public class Bootler {
 
     @RequestMapping(path = "/api", method = RequestMethod.GET)
     Map<String, String> api(@RequestHeader("host") String host) {
-        return mappings.stream().collect(Collectors.toMap(RequestMapping::name, mapping -> host + mapping.path()[0]));
+        return mappings.stream().collect(toMap(RequestMapping::name, mapping -> host + mapping.path()[0]));
     }
 
     @Bean
     public ApplicationRunner applicationRunner(ApplicationContext ctx) {
         return args -> {
             mappings = ctx.getBeansWithAnnotation(RestController.class).values().stream()
-                    .map(bean -> bean.getClass().getAnnotation(RequestMapping.class)).filter(Predicates.notNull())
-                    .collect(Collectors.toList());
+                    .map(bean -> bean.getClass().getAnnotation(RequestMapping.class)).filter(notNull())
+                    .collect(toList());
             //System.out.println("Let's inspect the beans provided by Spring Boot:");
             //Arrays.stream(ctx.getBeanDefinitionNames()).sorted().forEach(System.out::println);
             System.out.println("**********************************");

@@ -1,21 +1,21 @@
 package co.redtide.chlg;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
+@WebMvcTest
 public class BootlerTest {
 
     @Autowired
@@ -23,10 +23,14 @@ public class BootlerTest {
 
     @Test
     public void get_api_list() throws Exception {
-        // Arrange... Act... Assert...
-        mvc.perform(
-                MockMvcRequestBuilders.get("/api").header("host", "localhost:8080").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andExpect(content().string(containsString("/api/greet")));
+        // Arrange...
+        RequestBuilder mockHttpRequest = MockMvcRequestBuilders.get("/api").header("host", "localhost:8080")
+                .accept(APPLICATION_JSON);
+        // Act...
+        ResultActions testResult = mvc.perform(mockHttpRequest);
+        // Assert...
+        testResult.andExpect(status().isOk()).andExpect(jsonPath("$.greet", endsWith("/api/greet")))
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON));
     }
 
 }
