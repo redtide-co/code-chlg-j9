@@ -8,11 +8,11 @@ plugins {
     id "com.gorylenko.gradle-git-properties" version "1.4.17"
 }
 
+group "co.redtide"
+version  = "0.1.0"
 // jar {
 //     baseName = "redtide-chlg-bootler"
 // }
-group 'co.redtide'
-version  = "0.1.0"
 
 // In this section you declare where to find the dependencies of your project
 repositories {

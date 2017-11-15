@@ -1,6 +1,7 @@
 package co.redtide.chlg;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.springframework.http.HttpHeaders.HOST;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -24,13 +25,13 @@ public class BootlerTest {
     @Test
     public void get_api_list() throws Exception {
         // Arrange...
-        RequestBuilder mockHttpRequest = MockMvcRequestBuilders.get("/api").header("host", "localhost:8080")
-                .accept(APPLICATION_JSON);
+        String host = "localhost:8080";
+        RequestBuilder mockHttpRequest = MockMvcRequestBuilders.get("/api").header(HOST, host).accept(APPLICATION_JSON);
         // Act...
         ResultActions testResult = mvc.perform(mockHttpRequest);
         // Assert...
-        testResult.andExpect(status().isOk()).andExpect(jsonPath("$.greet", endsWith("/api/greet")))
-                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON));
+        testResult.andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.greet", allOf(startsWith(Bootler.schema + host), endsWith("/api/greet"))));
     }
 
 }

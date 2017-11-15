@@ -3,7 +3,7 @@ package co.redtide.chlg.api;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.TEXT_PLAIN;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 import java.net.URI;
 
@@ -25,22 +25,23 @@ public class GreetControllerIT {
     @LocalServerPort
     private int port;
     @Autowired
-    private TestRestTemplate template;
+    private TestRestTemplate testRest;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         apiGreetUri = URI.create("http://localhost:" + port + "/api/greet/");
     }
 
     @Test
-    public void get_api_greet() throws Exception {
+    public void get_api_greet() {
         // Given...
         // When...
-        ResponseEntity<String> response = template.getForEntity(apiGreetUri, String.class);
+        ResponseEntity<String> response = testRest.getForEntity(apiGreetUri, String.class);
         // Then...
         assertEquals(OK, response.getStatusCode());
-        assertTrue(response.getHeaders().getContentType().isCompatibleWith(TEXT_PLAIN));
-        assertThat(response.getHeaders().getETag(), containsString(GreetController.separator));
+        assertThat(response.getHeaders().getContentType().toString(), startsWith(TEXT_PLAIN_VALUE));
+        assertThat(response.getHeaders().getETag(), allOf(startsWith('"' + GreetController.prefix),
+                containsString(GreetController.separator), endsWith(GreetController.postfix + '"')));
         System.out.println(response.getBody());
     }
 
