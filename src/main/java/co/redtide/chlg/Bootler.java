@@ -3,10 +3,10 @@ package co.redtide.chlg;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.http.HttpHeaders.HOST;
-import static com.google.common.base.Predicates.notNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -33,7 +33,7 @@ public class Bootler {
     ApplicationRunner applicationRunner(ApplicationContext ctx) {
         return args -> {
             mappings = ctx.getBeansWithAnnotation(RestController.class).values().stream()
-                    .map(bean -> bean.getClass().getAnnotation(RequestMapping.class)).filter(notNull())
+                    .map(bean -> bean.getClass().getAnnotation(RequestMapping.class)).filter(Objects::nonNull)
                     .collect(toList());
             //System.out.println("Let's inspect the beans provided by Spring Boot:");
             //Arrays.stream(ctx.getBeanDefinitionNames()).sorted().forEach(System.out::println);

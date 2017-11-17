@@ -9,7 +9,7 @@ plugins {
 }
 
 group "co.redtide"
-version  = "0.2.0"
+version  = "0.2.1"
 // jar {
 //     baseName = "redtide-chlg-bootler"
 // }
@@ -29,11 +29,11 @@ dependencies {
     api "org.apache.commons:commons-math3:3.6.1"
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation "com.google.guava:guava:23.3-jre"
     implementation "org.apache.commons:commons-lang3:3.7"
-    implementation "com.github.lalyos:jfiglet:0.0.8"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "com.github.lalyos:jfiglet:0.0.8"
+    //implementation "com.google.guava:guava:23.3-jre"
 
     // Use JUnit test framework
     //testImplementation "junit:junit:4.12"
