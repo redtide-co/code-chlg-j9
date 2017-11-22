@@ -1,0 +1,25 @@
+endpoints:
+  cors:
+    allowed-origins: http://localhost
+    allowed-methods: GET,POST
+  hypermedia:
+    enabled: true
+#info:
+#  app:
+#    name: ${name}
+#    version: ${jar.version}
+#management:
+#  info:
+#    git:
+#      mode: full
+logging:
+  level:
+    root: WARN
+    co:
+      redtide:
+        chlg: INFO
+    org:
+      springframework:
+        web: ERROR
+  pattern:
+    console: '%n%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{40} - %msg'
